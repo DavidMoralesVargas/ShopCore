@@ -1,0 +1,62 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href=""></a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All" style="color: black;">
+                <img src="/ImagenCasa-transformed.png" style="width: 30px; height: 30px;" /> Inicio
+            </NavLink>
+        </div>
+        <AuthorizeView Roles="Administrador, Supervisor">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="usuarios" Match="NavLinkMatch.All" style="color: black;">
+                    <img src="/ImagenUsuarios-transformed.png" style="width: 30px; height: 30px;"> Usuarios
+                </NavLink>
+            </div>
+        </AuthorizeView>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="ofertas" Match="NavLinkMatch.All" style="color: black;">
+                <img src="/ImagenOferta-transformed.png" style="width: 30px; height: 30px;" /> Ofertas
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="comidas" Match="NavLinkMatch.All" style="color: black;">
+                <img src="/ImagenComida-transformed.png" style="width: 30px; height: 30px;" /> Comidas
+            </NavLink>
+        </div>
+        <AuthorizeView Roles="Administrador, Supervisor, AsesorComercial">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="productos" Match="NavLinkMatch.All" style="color: black;">
+                    <img src="/ImagenGestionProd-transformed.png" style="width: 30px; height: 30px;" /> Gestionar Productos
+                </NavLink>
+            </div>
+        </AuthorizeView>
+        <AuthorizeView Roles="Administrador, Supervisor">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="informes" Match="NavLinkMatch.All" style="color: black;">
+                    <img src="/ImagenInformes-transformed.png" style="width: 30px; height: 30px;" /> Informes de productos
+                </NavLink>
+            </div>
+        </AuthorizeView>
+       
+
+    </nav>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

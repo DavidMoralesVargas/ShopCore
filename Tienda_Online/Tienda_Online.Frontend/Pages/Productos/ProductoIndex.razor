@@ -1,0 +1,58 @@
+﻿@page "/productos"
+
+<h1 class="test">Gestión de Productos</h1>
+
+
+<div class="mb-3 container-fluid d-flex">
+    <div class="col-md-9">
+        <Pagination CurrentPage="currentPage"
+                    TotalPages="totalPages"
+                    SelectedPage="SelectedPageAsync" />
+    </div>
+    <div class="col-md-3">
+        <a class="btn btn-primary" style="background:#0D6EFD" href="/productos/crear"> Crear nuevo producto</a>
+    </div>
+</div>
+
+<GenericList MyList="Productos">
+    <Body>
+
+
+       
+
+        <div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
+            <input style="width: 400px; background:#D9D9D9" type="text" class="form-control" id="titulo" placeholder="Buscar producto..."
+                    @bind-value="Filtro"/>
+            <button type ="button" class="btn btn-outline-primary mx-1" @onclick="ApplyFilterAsync">Filtrar</button>
+            <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync">Limpiar</button>
+        </div>
+
+        <div class="container mb-4">
+            <div class="col-md-12">
+
+            </div>
+        </div>
+        <div class="container mb-3">
+            <div class="row">
+                @foreach (var productos in Productos!)
+                {
+                    <div class="col-md-3 d-flex flex-column align-items-center">
+                        <div class="col-md-12 d-flex flex-column align-items-center">
+                            <img style="width: 100px; height: 100px;"
+                                 src="@productos.Foto"
+                                 class="img-fluid mb-2" />
+                            <p style="color: blue; text-align: center;">$@productos.Precio</p>
+                            <p style="text-align: center;">@productos.Descripcion</p>
+                        </div>
+                        <div class="col-md-12 mb-3 d-flex justify-content-center">
+                            <a href="/productos/editar/@productos.Id" class="btn btn-warning" style="width: 120px; font-size: 0.9rem;">Editar</a>
+                        </div>
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <button class="btn btn-danger" style="width: 120px; font-size: 0.9rem;" @onclick="@(()=>DeleteAsync(productos))">Eliminar</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </Body>
+</GenericList>

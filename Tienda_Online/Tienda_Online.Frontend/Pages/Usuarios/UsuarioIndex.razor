@@ -1,0 +1,63 @@
+﻿@page "/usuarios"
+
+<h1>Usuarios</h1>
+
+<div class="mb-3 container-fluid d-flex">
+    <div class="col-md-9">
+        <Pagination CurrentPage="currentPage"
+                    TotalPages="totalPages"
+                    SelectedPage="SelectedPageAsync" />
+    </div>
+    <AuthorizeView Roles="Administrador">
+        <div class="col-md-3">
+            <a class="btn btn-primary" style="background:#0D6EFD" href="/usuarios/crear"> Adicionar usuario</a>
+        </div>
+    </AuthorizeView>
+    
+</div>
+
+<div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
+    <input style="width: 400px; background:#D9D9D9" type="text" class="form-control" id="titulo" placeholder="Buscar producto..."
+           @bind-value="Filtro" />
+    <button type="button" class="btn btn-outline-primary mx-1" @onclick="ApplyFilterAsync">Filtrar</button>
+    <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync">Limpiar</button>
+</div>
+
+@if(Usuarios is null)
+{
+    <Loading />
+}
+else
+{
+    <GenericList MyList="Usuarios">
+        <Body>
+           <table class="table table-striped">
+               <thead>
+                   <tr>
+                       <th>Usuarios</th>
+                       <th>Dirección</th>
+                       <th>Teléfono</th>
+                       <th>Email</th>
+                       <th>Confirmado</th>
+                       <th>Tipo de usuario</th>
+                   </tr>
+               </thead>
+               <tbody>
+                    @foreach (var usuario in Usuarios)
+                    {
+                        <tr>
+                            <td>@usuario.Nombre </td>
+                            <td>@usuario.Direccion</td>
+                            <td>@usuario.PhoneNumber</td>
+                            <td>@usuario.Email</td>
+                            <td>@(usuario.EmailConfirmed ? "Sí" : "No")</td>
+                            <td>@usuario.userType</td>
+                        </tr>
+                    }
+                </tbody>
+           </table>
+        </Body>
+    </GenericList>
+}
+
+

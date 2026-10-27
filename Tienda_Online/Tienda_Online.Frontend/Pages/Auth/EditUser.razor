@@ -1,0 +1,59 @@
+﻿@page "/EditUser"
+
+@if(user is null)
+{
+    <Loading/>
+}
+else
+{
+    <EditForm Model="user" OnValidSubmit="SaveUserAsync">
+        <DataAnnotationsValidator/>
+
+        <div class="row align-items-center mb-3">
+            <div class="col">
+                <h1>Editar Usuario</h1>
+            </div>
+            <div class="col text-end">
+                <button class="btn btn-primary me-2" type="submit" style="background-color:#0D6EFD">Guardar cambios</button>
+                <a class="btn btn-secondary" href="/changePassword">Cambiar Contraseña</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="mb-3">
+                    <lavel>Nombres:</lavel>
+                    <div>
+                        <InputText class="form-control" @bind-Value="@user.Nombre" />
+                        <ValidationMessage For="@(()=>user.Nombre)" />
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <lavel>Dirección:</lavel>
+                    <div>
+                        <InputText class="form-control" @bind-Value="@user.Direccion" />
+                        <ValidationMessage For="@(()=>user.Direccion)" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="mb-3">
+                    <lavel>Apellidos:</lavel>
+                    <div>
+                        <InputText class="form-control" @bind-Value="@user.Apellido" />
+                        <ValidationMessage For="@(()=>user.Apellido)" />
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <lavel>Teléfono:</lavel>
+                    <div>
+                        <InputText class="form-control" @bind-Value="@user.PhoneNumber" />
+                        <ValidationMessage For="@(()=>user.PhoneNumber)" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}
+
+

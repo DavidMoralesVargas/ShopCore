@@ -1,0 +1,6 @@
+﻿@page "/ofertas/CrearOferta/{Id:int}"
+
+<h3>OfertaCreate</h3>
+
+
+<OfertaForm @ref="ofertasForm" ReturnAction="ReturnCancel" OnValidSubmit="CreateAsync" oferta="promocion"/>

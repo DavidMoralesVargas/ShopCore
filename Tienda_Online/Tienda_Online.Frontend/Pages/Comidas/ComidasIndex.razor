@@ -1,0 +1,64 @@
+﻿@page "/comidas"
+
+<h1>Comidas</h1>
+
+
+<div class="mb-3 container-fluid d-flex">
+    <div class="col-md-9">
+        <Pagination CurrentPage="currentPage"
+                    TotalPages="totalPages"
+                    SelectedPage="SelectedPageAsync" />
+    </div>
+</div>
+<div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
+    <input style="width: 400px; background:#D9D9D9" type="text" class="form-control" id="titulo" placeholder="Buscar producto..."
+           @bind-value="Filtro" />
+    <button type="button" class="btn btn-outline-primary mx-1" @onclick="ApplyFilterAsync">Filtrar</button>
+    <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync">Limpiar</button>
+</div>
+
+<GenericList MyList="Productos">
+    <Body>
+        
+
+        <div class="container mb-4">
+            <div class="col-md-12">
+            </div>
+        </div>
+        <div class="container mb-3">
+            <div class="row">
+                @foreach (var productos in Productos!)
+                {
+                    <div class="col-md-3 d-flex flex-column align-items-center">
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <img style="width: 100px; height: 100px;"
+                                 src="@productos.Foto"
+                                 class="img-fluid mb-2" />
+                        </div>
+
+                        <div class="col-md-12 text-center">
+                            <p style="color: blue;">
+                                $@productos.Precio
+                            </p>
+                        </div>
+
+                        <div class="col-md-12 text-center">
+                            <p>
+                                @productos.Descripcion
+                            </p>
+                        </div>
+                        <AuthorizeView>
+                            <div class="col-md-12 d-flex justify-content-center">
+                                <button class="btn btn-primary" style="width: 140px; font-size: 0.85rem; background-color:#0D6EFD;"
+                                        @onclick="@(()=>IngresarCarritoCompra(productos.Id))">
+                                    Añadir al carrito
+                                </button>
+                            </div>
+                        </AuthorizeView>
+
+                    </div>
+                }
+            </div>
+        </div>
+    </Body>
+</GenericList>

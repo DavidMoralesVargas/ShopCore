@@ -1,0 +1,16 @@
+﻿@page "/productos/editar/{Id:int}"
+
+
+@if(producto is null)
+{
+    <Loading/>
+}
+else
+{
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Editar Producto</h1>
+        <a href="/ofertas/CrearOferta/@producto!.Id" class="btn btn-warning">Crear Oferta</a>
+    </div>
+    <ProductosForm @ref="ProductoForm" producto="producto" OnValidSubmit="EditAsync" ReturnAction="Return" />
+
+}

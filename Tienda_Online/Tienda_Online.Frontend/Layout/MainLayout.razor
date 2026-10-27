@@ -1,0 +1,38 @@
+﻿@inherits LayoutComponentBase
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+
+        <AuthorizeView>
+            <Authorized>
+                <div class="top-row px-4">
+                    <div>
+                        <a href="/carritocompra" style="margin-right: 3rem; color:black">Carrito de Compra</a>
+                    </div>
+
+                    <span class="d-flex align-items-center">
+                        Hola,<a href="EditUser" class="nav-link btn btn-link" style="color:black">@context.User.Identity!.Name</a>
+                    </span>
+                    <a href="Logout" class="nav-link btn btn-linl" style="color:black">Cerrar sesión</a>
+                </div>
+
+            </Authorized>
+            <NotAuthorized>
+                <div class="top-row px-4">
+                    <a class="mr-3" style="color:black">Carrito de Compra</a>
+                    <a href="Register" style="color:black">Registro</a>
+                    <a href="Login" style="color:black">Iniciar Sesión</a>
+                </div>
+            </NotAuthorized>
+        </AuthorizeView>
+
+        <article class="content px-4">
+            @Body
+        </article>
+        
+
+    </main>
+</div>

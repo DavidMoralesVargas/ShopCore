@@ -1,0 +1,37 @@
+﻿<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+
+<EditForm EditContext="_editContext" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+
+    <div class="mb-3">
+        <label>Nombre:</label>
+        <div>
+            <InputText style="background:#D9D9D9" class="form-control" @bind-Value="producto.Nombre" />
+            <ValidationMessage For="@(()=>producto.Nombre)"/>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label>Descripción:</label>
+        <div>
+            <InputText style="background:#D9D9D9" class="form-control" @bind-Value="producto.Descripcion" />
+            <ValidationMessage For="@(()=>producto.Descripcion)" />
+        </div>
+    </div>
+    <div class="mb-3">
+        <label>Precio:</label>
+        <div>
+            <InputNumber style="background:#D9D9D9" class="form-control" @bind-Value="producto.Precio" />
+            <ValidationMessage For="@(()=>producto.Precio)" />
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label>Seleccionar Imagen:</label>
+        <InputFile OnChange="OnInputFileChange" />
+        <ValidationMessage For="@(() => producto.Foto)" />
+    </div>
+
+
+    <button class="btn btn-primary" style="background:#0D6EFD" type="submit">Guardar cambios</button>
+    <button class="btn btn-success" style="background:#14FF00; color:black" @onclick="ReturnAction">Regresar</button>
+</EditForm>

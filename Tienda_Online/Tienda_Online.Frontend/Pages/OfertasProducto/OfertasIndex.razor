@@ -1,0 +1,68 @@
+﻿@page "/ofertas"
+
+<h1>Ofertas Especiales</h1>
+
+
+
+<div class="mb-3 container-fluid d-flex">
+    <div class="col-md-12">
+        <Pagination CurrentPage="currentPage"
+                    TotalPages="totalPages"
+                    SelectedPage="SelectedPageAsync" />
+    </div>
+</div>
+
+<div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
+    <input style="width: 400px; background:#D9D9D9" type="text" class="form-control" id="titulo" placeholder="Buscar producto..."
+           @bind-value="Filtro" />
+    <button type="button" class="btn btn-outline-primary mx-1" @onclick="ApplyFilterAsync">Filtrar</button>
+    <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync">Limpiar</button>
+</div>
+
+<GenericList MyList="Ofertas">
+    <Body>
+        
+
+        <div class="container mb-3">
+            <div class="row">
+                @foreach (var oferta in Ofertas!)
+                {
+                    <div class="col-md-3 d-flex flex-column align-items-center">
+                        <div class="col-md-12 d-flex flex-column align-items-center">
+                            <img style="width: 100px; height: 100px;"
+                                 src="@oferta.FotoProducto"
+                                 class="img-fluid mb-2" />
+
+                            <p style="color: blue; text-decoration: line-through; text-align: center;">
+                                $@oferta.PrecioAntiguo
+                            </p>
+                            <p style="color: blue; text-align: center;">
+                                $@oferta.PrecioOferta
+                            </p>
+                            <p style="text-align: center;">
+                                @oferta.DescripcionProducto
+                            </p>
+                        </div>
+                        <AuthorizeView>
+                            <div class="col-md-12 mb-2 d-flex justify-content-center">
+                                <button class="btn btn-primary" style="width: 140px; font-size: 0.85rem; background-color:#0D6EFD;"
+                                        @onclick="@(()=>IngresarCarritoCompra(oferta.IdProducto))">
+                                    Añadir al carrito
+                                </button>
+                            </div>
+                        </AuthorizeView>
+                        
+                        <AuthorizeView Roles="Administrador, Supervisor, AsesorComercial">
+                            <div class="col-md-12 d-flex justify-content-center">
+                                <button class="btn btn-danger" style="width: 140px; font-size: 0.85rem;"
+                                        @onclick="@(()=>DeleteAsyc(oferta))">
+                                    Eliminar Oferta
+                                </button>
+                            </div>
+                        </AuthorizeView>
+                    </div>
+                }
+            </div>
+        </div>
+    </Body>
+</GenericList>

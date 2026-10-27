@@ -1,0 +1,85 @@
+﻿@page "/usuarios/crear"
+
+<h1>Registrar Nuevo Usuario</h1>
+
+@if (loading)
+{
+    <Loading />
+}
+
+<EditForm Model="userDTO" OnValidSubmit="CreateUserAsync">
+    <DataAnnotationsValidator />
+
+    <div class="row">
+        <div class="col-6">
+            <div class="mb-3">
+                <label>Nombres:</label>
+                <div>
+                    <InputText class="form-control" @bind-Value="@userDTO.Nombre" />
+                    <ValidationMessage For="@(()=>userDTO.Nombre)" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label>Dirección:</label>
+                <div>
+                    <InputText class="form-control" @bind-Value="@userDTO.Direccion" />
+                    <ValidationMessage For="@(()=>userDTO.Direccion)" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label>Contraseña:</label>
+                <div>
+                    <InputText type="password" class="form-control" @bind-Value="@userDTO.Password" />
+                    <ValidationMessage For="@(()=>userDTO.Password)" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label>Confirmación de contraseña:</label>
+                <div>
+                    <InputText type="password" class="form-control" @bind-Value="@userDTO.PasswordConfirm" />
+                    <ValidationMessage For="@(()=>userDTO.PasswordConfirm)" />
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="mb-3">
+                <label>Apellidos:</label>
+                <div>
+                    <InputText class="form-control" @bind-Value="@userDTO.Apellido" />
+                    <ValidationMessage For="@(()=>userDTO.Apellido)" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label>Teléfono:</label>
+                <div>
+                    <InputText class="form-control" @bind-Value="@userDTO.PhoneNumber" />
+                    <ValidationMessage For="@(()=>userDTO.PhoneNumber)" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label>Fecha Nacimiento:</label>
+                <div>
+                    <InputDate class="form-control" @bind-Value="@userDTO.FechaNacimiento" />
+                    <ValidationMessage For="@(()=>userDTO.FechaNacimiento)" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label>Email:</label>
+                <div>
+                    <InputText class="form-control" @bind-Value="@userDTO.Email" />
+                    <ValidationMessage For="@(()=>userDTO.Email)" />
+                </div>
+            </div>
+             <div class="mb-3">
+                <label>Tipo de usuario:</label>
+                <select class="form-control" @bind="TipoUsuarioId">
+                    <option value="0">-- Selecciona un tipo --</option>
+                    <option value="1">-- Supervisor --</option>
+                    <option value="2">-- Asesor comercial --</option>
+                </select>
+                <ValidationMessage For="@(() => TipoUsuarioId)" />
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary" style="background-color:#0047FF" type="submit">Registrar</button>
+</EditForm>
