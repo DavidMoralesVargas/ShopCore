@@ -133,6 +133,20 @@ app.UseAuthorization();
 
 app.UseAuthorization();
 
+app.MapGet("/health", async (DataContext db, IWebHostEnvironment env, IConfiguration config) =>
+{
+    var dbOk = await db.Database.CanConnectAsync();
+    var body = new
+    {
+        status = dbOk ? "OK" : "DEGRADED",
+        database = dbOk ? "OK" : "ERROR",
+        environment = env.EnvironmentName,
+        version = config["App:Version"] ?? "sin-configurar",
+        utc = DateTime.UtcNow
+    };
+    return dbOk ? Results.Ok(body) : Results.Json(body, statusCode: 503);
+}).AllowAnonymous();
+
 app.MapControllers();
 
 app.Run();
