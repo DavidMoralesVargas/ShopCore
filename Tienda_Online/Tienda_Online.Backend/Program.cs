@@ -19,7 +19,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //Conexión a la base de datos
-builder.Services.AddDbContext<DataContext>(x=>x.UseSqlServer("name=DockerConnection"));
+builder.Services.AddDbContext<DataContext>(x=>x.UseSqlServer("name=DefaultConnection"));
 
 //Inyectamos las clases de los servicios
 builder.Services.AddScoped<clsProducto>();
@@ -113,9 +113,11 @@ static void SeedData(WebApplication app)
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+
 }
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors(x => x
    .AllowAnyMethod()
@@ -125,11 +127,7 @@ app.UseCors(x => x
 
 app.UseHttpsRedirection();
 
-app.UseHttpsRedirection();
-
 app.UseAuthentication();
-
-app.UseAuthorization();
 
 app.UseAuthorization();
 

@@ -13,8 +13,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped<IRepository, Repository>();
 
-var apiUrl = builder.Configuration["ApiUrl"] ?? "https://localhost:7000";
-builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(apiUrl) });
+builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://shopcoreapi-bgegbefuf2bnavbr.centralus-01.azurewebsites.net") });
 builder.Services.AddSweetAlert2();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationProviderJWT>();
