@@ -4,7 +4,7 @@ Práctica 3 · Despliegue de Software — Publicación en **IIS (On-Premises)** 
 
 ## Integrantes
 - [Nombre completo de A]
-- [Nombre completo de B]
+- Jhon Eduardo Zabala Garzon
 - [Nombre completo de C]
 - [Nombre completo de D]
 - [Nombre completo de E]
@@ -17,7 +17,7 @@ carrito de compras y generan facturas; los administradores gestionan productos, 
 | Integrante | Responsabilidad | Contribución verificable |
 |---|---|---|
 | [Nombre de A] | Coordinación e integración | Estructura del repo, `.gitignore`, README, informe PDF, tag `practica3-v1.0` (PR #, PR #) |
-| [Nombre de B] | Publicación en IIS | `deploy/iis/*`, `evidencias/iis/` (PR #) |
+| Jhon Eduardo Zabala Garzon | Publicación en IIS | `deploy/iis/*`, `evidencias/iis/` (PR #) |
 | [Nombre de C] | Preparación de la app | `/health`, `ApiUrl`, configuración por entorno, retiro de secretos, guion del video (PR #, PR #) |
 | [Nombre de D] | Infraestructura Azure | Recursos de Azure (App Services, Azure SQL, App Settings, HTTPS Only), `deploy/azure/README.md` (infraestructura), evidencias de configuración (PR #) |
 | [Nombre de E] | Despliegue y verificación en Azure | Publicación desde Visual Studio, `deploy/azure/README.md` (publicación), evidencias de URL y `/health` (PR #) |
@@ -34,7 +34,7 @@ carrito de compras y generan facturas; los administradores gestionan productos, 
 ## Publicación
 | Entorno | Fecha | Frontend | API / health |
 |---|---|---|---|
-| IIS (local) | AAAA-MM-DD | http://localhost:8080 | http://localhost:8081/health |
+| IIS (local) | 2026-10-27 | https://192.168.11.81:8000 | https://192.168.11.81:7000/health |
 | Azure App Service | AAAA-MM-DD | https://shopcoreweb-g4eqcddtajh2gph5.centralus-01.azurewebsites.net | https://shopcoreapi-bgegbefuf2bnavbr.centralus-01.azurewebsites.net/health |
 
 ## Video de evidencia

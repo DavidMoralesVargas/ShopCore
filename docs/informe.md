@@ -19,7 +19,7 @@
 | Integrante | Responsabilidad | Contribución verificable (PR / commits) |
 |---|---|---|
 | [Nombre completo de A] | Coordinación e integración | |
-| [Nombre completo de B] | Publicación en IIS | |
+| Jhon Eduardo Zabala Garzon | Publicación en IIS | |
 | [Nombre completo de C] | Preparación de la app | |
 | [Nombre completo de D] | Infraestructura Azure | |
 | [Nombre completo de E] | Despliegue y verificación en Azure | |

@@ -47,7 +47,7 @@ dotnet user-secrets list --project Tienda_Online/Tienda_Online.Backend
 |---|---|---|---|---|
 | `ASPNETCORE_ENVIRONMENT` | `Development` | `Production` (variable del pool) | `Production` (App Setting) | No |
 | `App:Version` | — (muestra `sin-configurar`) | `1.0.0-iis` (variable del pool) | `1.0.0` (App Setting `App__Version`) | No |
-| `ConnectionStrings:DockerConnection` | LocalDB (`appsettings.Development.json`) | SQL Server Express (variable del pool) | Azure SQL (*Connection strings*, tipo `SQLAzure`) | **Sí** en Azure |
+| `ConnectionStrings:DefaultConnection` | LocalDB (`appsettings.Development.json`) | SQL Server Express (variable del pool) | Azure SQL (*Connection strings*, tipo `SQLAzure`) | **Sí** en Azure |
 | `jwtKey` | User Secrets | Variable del pool | App Setting | **Sí** |
 | `Cloudinary:ApiKey` / `Cloudinary:ApiSecret` | User Secrets | Variables del pool | App Settings `Cloudinary__ApiKey` / `Cloudinary__ApiSecret` | **Sí** |
 | `Cloudinary:CloudName` | `appsettings.Development.json` | `appsettings.Production.json` | `appsettings.Production.json` | No |
