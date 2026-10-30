@@ -434,3 +434,4 @@ app.zip
 app-api.zip
 app-web.zip
 appsettings.*.local.json
+.DS_Store

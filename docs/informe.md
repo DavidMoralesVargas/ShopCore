@@ -126,7 +126,7 @@ Actividades 11, 14 y 15 del enunciado:
 
 | Actividad | Evidencia |
 |---|---|
-| Workflow de GitHub Actions | `evidencias/azure/08-github-actions.png` |
+| Publicación desde Visual Studio (perfil de publicación) | `evidencias/azure/08-publicacion-visual-studio.png` |
 | Aplicación en la URL pública | `evidencias/azure/09-web-url-publica.png` |
 | `/health` API | `evidencias/azure/10-api-health.png` |
 | `/health` Web | `evidencias/azure/11-web-health.png` |
