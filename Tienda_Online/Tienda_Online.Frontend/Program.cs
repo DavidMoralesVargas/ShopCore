@@ -13,7 +13,8 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped<IRepository, Repository>();
 
-builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7000") });
+var apiUrl = builder.Configuration["ApiUrl"] ?? "https://localhost:7000";
+builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(apiUrl) });
 builder.Services.AddSweetAlert2();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationProviderJWT>();
