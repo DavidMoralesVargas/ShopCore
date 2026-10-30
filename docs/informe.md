@@ -32,10 +32,58 @@
 
 ## 4. Preparación de la aplicación para el despliegue · *C*
 
-- Endpoint `/health` de la API y página `/health` del frontend.
-- URL de la API configurable (`ApiUrl`).
-- Configuración por entorno (`appsettings.Production.json`, `App:Version`).
-- Retiro y rotación de secretos (User Secrets / variables de entorno).
+Antes de publicar en IIS y Azure hubo que preparar el código para que se pudiera configurar según el entorno y verificar una vez desplegado. No se modificó la lógica de negocio: solo configuración, un endpoint de salud y una página de verificación.
+
+### 4.1 Problemas encontrados
+
+| # | Problema | Dónde estaba | Consecuencia |
+|---|---|---|---|
+| 1 | La URL de la API estaba escrita en el código (`https://localhost:7000`) | `Frontend/Program.cs` | El Frontend publicado en IIS o Azure seguiría llamando a `localhost` y no encontraría la API |
+| 2 | Había secretos reales versionados: contraseña de la cuenta de correo, `ApiKey` y `ApiSecret` de Cloudinary y la `jwtKey` | `Backend/appsettings.Development.json` | Cualquiera con acceso al repositorio podía usarlos |
+| 3 | No existía un endpoint para comprobar que la aplicación y la base de datos estaban vivas | — | No había forma simple de verificar un despliegue |
+| 4 | No había configuración para el entorno `Production` | `Backend/appsettings.json` | La API publicada no tenía de dónde tomar sus valores |
+
+### 4.2 Cambios realizados
+
+| Cambio | Archivos | Para qué |
+|---|---|---|
+| Secretos fuera del repositorio | `appsettings.Development.json`, `Tienda_Online.Backend.csproj` (`UserSecretsId`) | `jwtKey`, `Cloudinary:ApiKey` y `Cloudinary:ApiSecret` se cargan con *User Secrets* en desarrollo. Se eliminó por completo la sección `Mail` (el correo está fuera de alcance) |
+| Configuración de Production sin secretos | `appsettings.Production.json` | Solo contiene `Cloudinary:CloudName`, que no es secreto. Los demás valores llegan por variables de entorno (IIS) o App Settings (Azure) |
+| Endpoint `GET /health` en la API | `Backend/Program.cs` | Devuelve JSON con `status`, `database`, `environment`, `version` y `utc`. Responde 200 si la base de datos responde y 503 si no |
+| URL de la API configurable | `Frontend/Program.cs`, `Frontend/wwwroot/appsettings.json`, `Frontend/wwwroot/appsettings.Development.json` | La URL se lee de `ApiUrl`, con un valor por entorno |
+| Página `/health` del Frontend | `Frontend/Pages/Health.razor` | Muestra "Frontend: OK" y consulta `/health` de la API, así una sola página prueba que el Frontend carga y que llega a la API |
+
+**Por qué `ApiUrl` va en `wwwroot/appsettings.json`:** el Frontend es Blazor WebAssembly y corre en el navegador, que no tiene acceso a las variables de entorno del servidor. Por eso su configuración se publica como archivo estático y se descarga con la aplicación. En Azure, el workflow de despliegue reemplaza ese valor por la URL de la API en Azure.
+
+**Por qué User Secrets:** es el mecanismo de .NET para guardar secretos de desarrollo fuera del repositorio. En IIS y Azure esos mismos valores se entregan por variables de entorno del *Application Pool* y por App Settings, respectivamente. La explicación completa está en [`configuracion.md`](configuracion.md).
+
+### 4.3 Rotación de credenciales
+
+Los valores anteriores siguen presentes en el historial de Git, por lo que retirarlos del archivo no es suficiente y hay que invalidarlos:
+
+- **Cuenta de correo:** se revocó la *App Password*. No se generó otra porque el correo no se usa.
+- **Cloudinary:** se regeneraron la `ApiKey` y el `ApiSecret` desde *Settings → API Keys → Regenerate*.
+- **`jwtKey`:** se generó una nueva (`openssl rand -base64 64`). Los tokens anteriores dejan de funcionar, y eso es lo esperado.
+
+
+### 4.4 Verificación
+
+Ambas pruebas se hicieron en desarrollo con `dotnet run --launch-profile https`:
+
+1. **API:** `https://localhost:7000/health` respondió HTTP 200 con `status: OK`, `database: OK` y `environment: Development`. `version` aparece como `sin-configurar` porque `App:Version` solo se define en IIS y Azure.
+
+
+2. **Frontend:** `https://localhost:8000/health` mostró "Frontend: OK" y el estado de la API (`200` con el mismo JSON), lo que confirma que `ApiUrl` se lee de la configuración y que el Frontend llega a la API.
+
+
+3. **Compilación y revisión de secretos:** `dotnet build Tienda_Online/Tienda_Online.sln` compila sin errores nuevos, y `git grep` de `ApiSecret|ApiKey|jwtKey|Password` en los `.json` del Backend y del Frontend no devuelve ningún valor.
+
+### 4.5 Problemas encontrados durante la preparación
+
+| Problema | Causa | Solución |
+|---|---|---|
+| El diff de `Program.cs` del Backend mostraba una línea modificada que no se había tocado | El archivo está guardado en ISO-8859-1 y el editor lo guardó como UTF-8, dañando el carácter `ó` del comentario | Se restauró el archivo, se insertó el bloque de `/health` sin cambiar la codificación y se verificó que el diff solo tuviera las líneas nuevas |
+| La API no arrancaba con "You must install or update .NET" | El equipo solo tenía el runtime de .NET 10 y el proyecto apunta a net8.0 | Se instalaron los runtimes de .NET 8 (ASP.NET Core Runtime y .NET Runtime) |
 
 ## 5. Parte 1 — Publicación en IIS · *B*
 
