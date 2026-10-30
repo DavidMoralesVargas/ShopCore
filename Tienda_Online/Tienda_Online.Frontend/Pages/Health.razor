@@ -1,0 +1,24 @@
+@page "/health"
+@inject HttpClient Http
+
+<PageTitle>Health</PageTitle>
+
+<h3>Frontend: OK</h3>
+<p>API (@Http.BaseAddress): @apiStatus</p>
+
+@code {
+    private string apiStatus = "consultando...";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var response = await Http.GetAsync("health");
+            apiStatus = $"{(int)response.StatusCode} {await response.Content.ReadAsStringAsync()}";
+        }
+        catch (Exception ex)
+        {
+            apiStatus = $"ERROR: {ex.Message}";
+        }
+    }
+}
