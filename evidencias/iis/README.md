@@ -103,7 +103,7 @@ Sitio `ShopCore-Web` → *Basic Settings*: Application pool `ShopCoreWebPool`, r
 ### 2.6 Configuración de producción (valores sensibles ocultos)
 ![Configuración de producción](12_configuracion_produccion.png)
 
-`appsettings.Production.json` del Backend con la cadena de conexión `DefaultConnection` hacia `localhost\SQLEXPRESS`, la configuración de correo, Cloudinary y `jwtKey`. Las contraseñas y claves aparecen tapadas. El archivo está excluido del repositorio (`.gitignore`) y se incluye en la publicación con `dotnet publish`.
+`appsettings.Production.json` del Backend con la cadena de conexión hacia `localhost\SQLEXPRESS`, la configuración de correo, Cloudinary y `jwtKey`. Las contraseñas y claves aparecen tapadas. Los valores secretos se agregaron solo en la copia local del servidor y se incluyen en la publicación con `dotnet publish`; **no se suben al repositorio**: la versión versionada de `appsettings.Production.json` no contiene secretos. La captura se tomó el 2026-10-27, cuando la cadena de conexión todavía se llamaba `DockerConnection`; el código actual usa `DefaultConnection`.
 
 ### 2.7 Aplicación funcionando en el navegador
 ![App en navegador](13_app_navegador.png)

@@ -87,24 +87,23 @@ Ambas pruebas se hicieron en desarrollo con `dotnet run --launch-profile https`:
 
 ## 5. Parte 1 — Publicación en IIS · *B*
 
-Describir cada actividad (1–8 del enunciado) con su captura:
+La publicación se realizó en **Windows Server** (consultado con el docente) con dos sitios: `ShopCore-API` (https, puerto 7000) y `ShopCore-Web` (https, puerto 8000). La explicación de cada captura está en [`evidencias/iis/README.md`](../evidencias/iis/README.md).
 
-| Actividad | Evidencia |
+| Actividad del enunciado | Evidencia |
 |---|---|
-| IIS habilitado | `evidencias/iis/01-iis-habilitado.png` |
-| Hosting Bundle / ANCM | `evidencias/iis/02-hosting-bundle.png` |
-| URL Rewrite | `evidencias/iis/03-url-rewrite.png` |
-| SQL Server Express y login del pool | `evidencias/iis/04-sql-login-pool.png` |
-| Application Pools | `evidencias/iis/05-app-pools.png` |
-| Sitio Web: ruta física y binding 8080 | `evidencias/iis/06-sitio-web-config.png` |
-| Sitio API: ruta física y binding 8081 | `evidencias/iis/07-sitio-api-config.png` |
-| Punto de entrada Web | `evidencias/iis/08-punto-entrada-web.png` |
-| Punto de entrada API (`web.config`) | `evidencias/iis/09-punto-entrada-api.png` |
-| Variables del pool (valores ocultos) | `evidencias/iis/10-variables-pool.png` |
-| Ejecución de scripts | `evidencias/iis/11-scripts-ejecucion.png` |
-| Aplicación en el navegador | `evidencias/iis/12-app-navegador.png` |
-| `/health` API | `evidencias/iis/13-api-health.png` |
-| `/health` Web | `evidencias/iis/14-web-health.png` |
+| 1. IIS habilitado | `evidencias/iis/01_iis_rol_instalado.png` |
+| Hosting Bundle de ASP.NET Core 8 | `evidencias/iis/02_hosting_bundle.png` |
+| URL Rewrite (requerido por Blazor WebAssembly) | `evidencias/iis/03_url_rewrite.png` |
+| SQL Server Express y login de la aplicación | `evidencias/iis/04_sql_express.png`, `evidencias/iis/04b_sql_login_shopcore.png` |
+| 2. Versión publicable (`dotnet publish`) | `evidencias/iis/05a_dotnet_publish_inicio.png`, `evidencias/iis/05_dotnet_publish.png` |
+| 3. Application Pools dedicados | `evidencias/iis/06a_app_pool_api.png`, `evidencias/iis/06b_app_pool_web.png`, `evidencias/iis/06_app_pools.png` |
+| Certificado autofirmado para HTTPS | `evidencias/iis/07a_certificado_autofirmado.png` |
+| 4–5. Sitio API: ruta física y binding (7000) | `evidencias/iis/07_api_ruta_fisica.png`, `evidencias/iis/08_api_binding.png` |
+| 4–5. Sitio Web: ruta física y binding (8000) | `evidencias/iis/09_web_ruta_fisica.png`, `evidencias/iis/10_web_binding.png` |
+| 6. Documento predeterminado (`index.html`) | `evidencias/iis/11_documento_predeterminado.png` |
+| Configuración de producción (valores ocultos) | `evidencias/iis/12_configuracion_produccion.png` |
+| 7. Aplicación en el navegador | `evidencias/iis/13_app_navegador.png` |
+| 8. `/health` de la API | `evidencias/iis/14_health.png` |
 
 ## 6. Parte 2 — Infraestructura en Azure App Service · *D*
 

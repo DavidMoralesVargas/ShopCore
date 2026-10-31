@@ -17,7 +17,7 @@ carrito de compras y generan facturas; los administradores gestionan productos, 
 | Integrante | Responsabilidad | Contribución verificable |
 |---|---|---|
 | [Nombre de A] | Coordinación e integración | Estructura del repo, `.gitignore`, README, informe PDF, tag `practica3-v1.0` (PR #, PR #) |
-| Jhon Eduardo Zabala Garzon | Publicación en IIS | `deploy/iis/*`, `evidencias/iis/` (PR #) |
+| Jhon Eduardo Zabala Garzon | Publicación en IIS | Publicación en IIS (Windows Server), guía y capturas en `evidencias/iis/` (PR #3) |
 | [Nombre de C] | Preparación de la app | `/health`, `ApiUrl`, configuración por entorno, retiro de secretos, guion del video (PR #, PR #) |
 | [Nombre de D] | Infraestructura Azure | Recursos de Azure (App Services, Azure SQL, App Settings, HTTPS Only), `deploy/azure/README.md` (infraestructura), evidencias de configuración (PR #) |
 | [Nombre de E] | Despliegue y verificación en Azure | Publicación desde Visual Studio, `deploy/azure/README.md` (publicación), evidencias de URL y `/health` (PR #) |
@@ -48,7 +48,7 @@ carrito de compras y generan facturas; los administradores gestionan productos, 
 5. Evidencias en [`evidencias/iis/`](evidencias/iis/) y [`evidencias/azure/`](evidencias/azure/).
 
 ## Reproducir el despliegue
-- IIS: ver [`deploy/iis/README.md`](deploy/iis/)
+- IIS: ver [`evidencias/iis/README.md`](evidencias/iis/README.md)
 - Azure: ver [`deploy/azure/README.md`](deploy/azure/)
 - Configuración y secretos: ver [`docs/configuracion.md`](docs/configuracion.md)
 

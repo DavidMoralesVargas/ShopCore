@@ -30,54 +30,85 @@ dotnet user-secrets list --project Tienda_Online/Tienda_Online.Backend
 
 > Los valores de `Cloudinary:ApiKey` y `Cloudinary:ApiSecret` los entrega el dueño de la cuenta de Cloudinary por un canal privado del equipo. Nunca por el repositorio, issues ni Pull Requests.
 
+> En desarrollo, la cadena de conexión `DefaultConnection` apunta a **LocalDB**, que solo existe en Windows. En macOS o Linux hay que reemplazarla (por ejemplo, con User Secrets) por un SQL Server accesible, como uno en Docker.
+
 ## 2. Qué se versiona y qué no
 
 | Archivo | ¿Se versiona? | Contenido |
 |---|---|---|
-| `Backend/appsettings.json` | Sí | Logging y `AllowedHosts` |
-| `Backend/appsettings.Development.json` | Sí | Connection string de LocalDB, `Url Frontend`, `Cloudinary:CloudName`. **Sin secretos** |
+| `Backend/appsettings.json` | Sí | Claves vacías como plantilla (`ConnectionStrings:DefaultConnection`, `Cloudinary:*`, `jwtKey`), logging y `AllowedHosts`. **Sin secretos** |
+| `Backend/appsettings.Development.json` | Sí | Connection string `DefaultConnection` de LocalDB, `Url Frontend`, `Cloudinary:CloudName`. **Sin secretos** |
 | `Backend/appsettings.Production.json` | Sí | Solo `Cloudinary:CloudName` (no es un secreto). **Sin secretos** |
 | User Secrets (`jwtKey`, `Cloudinary:ApiKey`, `Cloudinary:ApiSecret`) | **No** (quedan en el equipo de cada desarrollador) | Secretos de desarrollo |
-| `Frontend/wwwroot/appsettings.json` | Sí | `ApiUrl` por defecto (`http://localhost:8081`, el sitio de la API en IIS) |
-| `Frontend/wwwroot/appsettings.Development.json` | Sí | `ApiUrl` para desarrollo (`https://localhost:7000`) |
+| `appsettings.Production.json` **con secretos** en el servidor IIS | **No** | Copia local del servidor; ver sección 3.1 |
+| `Frontend/wwwroot/appsettings.json` y `appsettings.Development.json` | Sí | `ApiUrl`. **Hoy no se usan**: ver sección 4 |
 
 ## 3. Configuración por entorno (API)
 
-| Clave | Development (local) | IIS | Azure | ¿Secreto? |
+| Clave | Development (local) | IIS (Windows Server) | Azure App Service | ¿Secreto? |
 |---|---|---|---|---|
-| `ASPNETCORE_ENVIRONMENT` | `Development` | `Production` (variable del pool) | `Production` (App Setting) | No |
-| `App:Version` | — (muestra `sin-configurar`) | `1.0.0-iis` (variable del pool) | `1.0.0` (App Setting `App__Version`) | No |
-| `ConnectionStrings:DefaultConnection` | LocalDB (`appsettings.Development.json`) | SQL Server Express (variable del pool) | Azure SQL (*Connection strings*, tipo `SQLAzure`) | **Sí** en Azure |
-| `jwtKey` | User Secrets | Variable del pool | App Setting | **Sí** |
-| `Cloudinary:ApiKey` / `Cloudinary:ApiSecret` | User Secrets | Variables del pool | App Settings `Cloudinary__ApiKey` / `Cloudinary__ApiSecret` | **Sí** |
+| `ASPNETCORE_ENVIRONMENT` | `Development` (`launchSettings.json`) | `Production` (valor por defecto de ASP.NET Core) | `Production` (App Setting) | No |
+| `App:Version` | — (muestra `sin-configurar`) | — (muestra `sin-configurar`) | `1.0.0` (App Setting `App__Version`; **pendiente**: hoy `/health` muestra `sin-configurar`) | No |
+| `ConnectionStrings:DefaultConnection` | LocalDB (`appsettings.Development.json`) | SQL Server Express `localhost\SQLEXPRESS`, login SQL `shopcore` (`appsettings.Production.json` del servidor) | Azure SQL (*Connection strings*, tipo `SQLAzure`) | **Sí** |
+| `jwtKey` | User Secrets | `appsettings.Production.json` del servidor | App Setting `jwtKey` | **Sí** |
+| `Cloudinary:ApiKey` / `Cloudinary:ApiSecret` | User Secrets | `appsettings.Production.json` del servidor | App Settings `Cloudinary__ApiKey` / `Cloudinary__ApiSecret` | **Sí** |
 | `Cloudinary:CloudName` | `appsettings.Development.json` | `appsettings.Production.json` | `appsettings.Production.json` | No |
-| `Mail:*`, `Url Frontend` | — | — | — | No se usan (correo fuera de alcance) |
+| `Mail:*`, `Url Frontend` | — | Presentes en el archivo del servidor, pero no se usan | — | No se usan (correo fuera de alcance) |
 
 En ASP.NET Core, `:` se escribe como `__` (doble guion bajo) en las variables de entorno y en los App Settings. Por ejemplo, `Cloudinary__ApiSecret` equivale a `Cloudinary:ApiSecret`.
 
+### 3.1 IIS: secretos en `appsettings.Production.json` del servidor
+
+En IIS los valores de producción se cargaron editando `appsettings.Production.json` en la copia del proyecto del servidor antes de ejecutar `dotnet publish`, así que el archivo publicado en `C:\inetpub\shopcore-api` ya los contiene (captura `evidencias/iis/12_configuracion_produccion.png`, con los valores tapados).
+
+Ese archivo **está versionado** (la versión del repo solo tiene `Cloudinary:CloudName`), por lo que la copia con secretos **nunca debe subirse**. En el equipo donde se editó, conviene que git ignore los cambios locales:
+
+```bash
+git update-index --skip-worktree Tienda_Online/Tienda_Online.Backend/appsettings.Production.json
+```
+
+Para volver a versionarlo normalmente: `git update-index --no-skip-worktree <ruta>`.
+
 ## 4. Configuración por entorno (Frontend)
 
-El Frontend es Blazor WebAssembly: corre en el navegador del usuario, por eso **no puede leer variables de entorno del servidor**. Su configuración viaja como archivos estáticos en `wwwroot/` y se descarga junto con la aplicación.
+El Frontend es Blazor WebAssembly: corre en el navegador del usuario, por eso **no puede leer variables de entorno del servidor**.
 
-| Archivo | `ApiUrl` | Cuándo se usa |
-|---|---|---|
-| `wwwroot/appsettings.Development.json` | `https://localhost:7000` | Desarrollo con `dotnet run` (entorno `Development`) |
-| `wwwroot/appsettings.json` | `http://localhost:8081` | Lo que se publica en IIS |
-| Azure | URL de la API en Azure | El workflow de despliegue reemplaza el valor de `appsettings.json` al publicar |
+Para la publicación en Azure, la URL de la API quedó **fija en `Frontend/Program.cs`**:
 
-En `Frontend/Program.cs` la URL se lee con `builder.Configuration["ApiUrl"]`, y si no existe se usa `https://localhost:7000` como valor de respaldo.
+```csharp
+builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://shopcoreapi-bgegbefuf2bnavbr.centralus-01.azurewebsites.net") });
+```
 
-## 5. Endpoints de verificación (`/health`)
+Consecuencias:
 
-| Componente | URL (desarrollo) | Respuesta esperada |
-|---|---|---|
-| API | `https://localhost:7000/health` | HTTP 200 con JSON: `status`, `database`, `environment`, `version`, `utc`. Si la base de datos no responde: HTTP 503 y `status: DEGRADED` |
-| Frontend | `https://localhost:8000/health` | Página "Frontend: OK" y el estado que devuelve la API |
+- El frontend publicado en **IIS y en Azure** consulta la **API de Azure**. La API publicada en IIS se verifica directamente en `https://192.168.11.81:7000/health` o en `https://192.168.11.81:7000/swagger`.
+- Los archivos `wwwroot/appsettings.json` (`http://localhost:8081`) y `wwwroot/appsettings.Development.json` (`https://localhost:7000`) siguen en el repositorio, pero **ya no se leen**.
+- Para que cada frontend use su propia API, habría que volver a leer `builder.Configuration["ApiUrl"]` en `Program.cs` y ajustar `ApiUrl` en cada publicación.
+
+## 5. Endpoints de verificación
+
+| Componente | Desarrollo | IIS | Azure |
+|---|---|---|---|
+| API `/health` | `https://localhost:7000/health` | `https://192.168.11.81:7000/health` | `https://shopcoreapi-bgegbefuf2bnavbr.centralus-01.azurewebsites.net/health` |
+| API Swagger | `https://localhost:7000/swagger` | `https://192.168.11.81:7000/swagger` | `https://shopcoreapi-bgegbefuf2bnavbr.centralus-01.azurewebsites.net/swagger` |
+| Frontend `/health` | `https://localhost:8000/health` | `https://192.168.11.81:8000/health` | `https://shopcoreweb-g4eqcddtajh2gph5.centralus-01.azurewebsites.net/health` |
+
+- **API `/health`:** HTTP 200 con JSON `status`, `database`, `environment`, `version`, `utc`. Si la base de datos no responde: HTTP 503 y `status: DEGRADED`.
+- **Frontend `/health`:** página "Frontend: OK" y el estado que devuelve la API (la de Azure, ver sección 4).
+- **Swagger** está habilitado en **todos** los entornos, no solo en Development.
 
 ## 6. Alcance: el correo no se usa
 
-El envío de correos (confirmación de cuenta y recuperación de contraseña) está **fuera del alcance** de esta práctica, por lo que no se configuran `Mail:*` ni `Url Frontend` en ningún entorno de despliegue. Consecuencia: el registro de usuarios nuevos y la recuperación de contraseña no funcionan, porque la API exige correo confirmado. La verificación de la aplicación se hace con el **usuario administrador que crea el seed** (`Data/SeedDb.cs`), que ya viene confirmado.
+El envío de correos (confirmación de cuenta y recuperación de contraseña) está **fuera del alcance** de esta práctica, por lo que no se configuran `Mail:*` ni `Url Frontend` en Azure. Consecuencia: el registro de usuarios nuevos y la recuperación de contraseña no funcionan, porque la API exige correo confirmado. La verificación de la aplicación se hace con el **usuario administrador que crea el seed** (`Data/SeedDb.cs`), que ya viene confirmado.
 
 ## 7. Base de datos
 
-La API crea el esquema al arrancar con `EnsureCreatedAsync()` (en el seed) si la base de datos está vacía. En desarrollo usa la base `Orders` de LocalDB. Si la base de datos no está disponible o falta `jwtKey`, la API **no arranca**.
+La API crea el esquema al arrancar con `EnsureCreatedAsync()` (en el seed) si la base de datos está vacía.
+
+| Entorno | Base de datos |
+|---|---|
+| Desarrollo | `Orders` en LocalDB |
+| IIS | `ShopCore` en SQL Server Express (`localhost\SQLEXPRESS`), creada por la app con el login SQL `shopcore` |
+| Azure | Azure SQL Database |
+
+Si la base de datos no está disponible o falta `jwtKey`, la API **no arranca**.
