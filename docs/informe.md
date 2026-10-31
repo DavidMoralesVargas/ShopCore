@@ -18,11 +18,11 @@
 
 | Integrante | Responsabilidad | Contribución verificable (PR / commits) |
 |---|---|---|
-| [Nombre completo de A] | Coordinación e integración | |
-| Jhon Eduardo Zabala Garzon | Publicación en IIS | |
-| [Nombre completo de C] | Preparación de la app | |
-| [Nombre completo de D] | Infraestructura Azure | |
-| [Nombre completo de E] | Despliegue y verificación en Azure | |
+| Sebastian Villa | Coordinación e integración | |
+| Jhon Eduardo Zabala Garzón | Publicación en IIS | |
+| Laura Posada | Preparación de la app | |
+| David Morales Vargas | Infraestructura Azure | |
+| Brayan Arango | Despliegue y verificación en Azure | |
 
 ## 3. Descripción de la aplicación · *A*
 
@@ -111,13 +111,13 @@ Actividades 9, 10, 12 y 13 del enunciado:
 
 | Actividad | Evidencia |
 |---|---|
-| Resource group y recursos | `evidencias/azure/01-resource-group.png` |
-| App Service API | `evidencias/azure/02-api-overview.png` |
-| App Service Web | `evidencias/azure/03-web-overview.png` |
-| Application Settings (valores ocultos) | `evidencias/azure/04-api-app-settings.png` |
-| Connection string (valor oculto) | `evidencias/azure/05-api-connection-string.png` |
-| HTTPS Only | `evidencias/azure/06-https-only.png` |
-| Azure SQL Database | `evidencias/azure/07-sql-database.png` |
+| Grupo de recursos `ShopCore` | `evidencias/azure/01_resource_group.PNG` |
+| App Service de la API (`ShopCoreAPI`) | `evidencias/azure/02_AppServiceAPI.PNG` |
+| App Service de la tienda (`ShopCoreWeb`) | `evidencias/azure/03_AppServiceWEB.PNG` |
+| Application Settings, incluida la cadena de conexión (valores ocultos) | `evidencias/azure/04_EnvironmentVariables.PNG` |
+| Creación de la Application Setting `App__Version` | `evidencias/azure/05_CreacionAppVersion.PNG` |
+| HTTPS Only | `evidencias/azure/06_https_only.png` |
+| Azure SQL Database | `evidencias/azure/07_azure_sql.png` |
 
 ## 7. Parte 2 — Despliegue y verificación en Azure · *E*
 
@@ -125,11 +125,11 @@ Actividades 11, 14 y 15 del enunciado:
 
 | Actividad | Evidencia |
 |---|---|
-| Publicación desde Visual Studio (perfil de publicación) | `evidencias/azure/08-publicacion-visual-studio.png` |
-| Aplicación en la URL pública | `evidencias/azure/09-web-url-publica.png` |
-| `/health` API | `evidencias/azure/10-api-health.png` |
-| `/health` Web | `evidencias/azure/11-web-health.png` |
-| Redirección HTTP → HTTPS | `evidencias/azure/12-redireccion-https.png` |
+| Publicación desde Visual Studio (perfil de publicación) | `evidencias/azure/08_publicacion_visual_studio.png` |
+| Aplicación en la URL pública | `evidencias/azure/09_web_url_publica.png` |
+| `/health` API | `evidencias/azure/10_api_health.png` |
+| `/health` Web | `evidencias/azure/11_web_health.png` |
+| Redirección HTTP → HTTPS | `evidencias/azure/12_redireccion_https.png` |
 
 ## 8. Trabajo colaborativo · *A*
 

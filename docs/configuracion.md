@@ -48,11 +48,11 @@ dotnet user-secrets list --project Tienda_Online/Tienda_Online.Backend
 | Clave | Development (local) | IIS (Windows Server) | Azure App Service | ¿Secreto? |
 |---|---|---|---|---|
 | `ASPNETCORE_ENVIRONMENT` | `Development` (`launchSettings.json`) | `Production` (valor por defecto de ASP.NET Core) | `Production` (App Setting) | No |
-| `App:Version` | — (muestra `sin-configurar`) | — (muestra `sin-configurar`) | `1.0.0` (App Setting `App__Version`; **pendiente**: hoy `/health` muestra `sin-configurar`) | No |
-| `ConnectionStrings:DefaultConnection` | LocalDB (`appsettings.Development.json`) | SQL Server Express `localhost\SQLEXPRESS`, login SQL `shopcore` (`appsettings.Production.json` del servidor) | Azure SQL (*Connection strings*, tipo `SQLAzure`) | **Sí** |
+| `App:Version` | — (muestra `sin-configurar`) | — (muestra `sin-configurar`) | `1.0.0` (App Setting `App__Version`) | No |
+| `ConnectionStrings:DefaultConnection` | LocalDB (`appsettings.Development.json`) | SQL Server Express `localhost\SQLEXPRESS`, login SQL `shopcore` (`appsettings.Production.json` del servidor) | Azure SQL (App Setting `ConnectionStrings__DefaultConnection`) | **Sí** |
 | `jwtKey` | User Secrets | `appsettings.Production.json` del servidor | App Setting `jwtKey` | **Sí** |
 | `Cloudinary:ApiKey` / `Cloudinary:ApiSecret` | User Secrets | `appsettings.Production.json` del servidor | App Settings `Cloudinary__ApiKey` / `Cloudinary__ApiSecret` | **Sí** |
-| `Cloudinary:CloudName` | `appsettings.Development.json` | `appsettings.Production.json` | `appsettings.Production.json` | No |
+| `Cloudinary:CloudName` | `appsettings.Development.json` | `appsettings.Production.json` | App Setting `Cloudinary__CloudName` | No |
 | `Mail:*`, `Url Frontend` | — | Presentes en el archivo del servidor, pero no se usan | — | No se usan (correo fuera de alcance) |
 
 En ASP.NET Core, `:` se escribe como `__` (doble guion bajo) en las variables de entorno y en los App Settings. Por ejemplo, `Cloudinary__ApiSecret` equivale a `Cloudinary:ApiSecret`.
