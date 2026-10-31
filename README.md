@@ -18,7 +18,7 @@ carrito de compras y generan facturas; los administradores gestionan productos, 
 |---|---|---|
 | [Nombre de A] | Coordinación e integración | Estructura del repo, `.gitignore`, README, informe PDF, tag `practica3-v1.0` (PR #, PR #) |
 | Jhon Eduardo Zabala Garzon | Publicación en IIS | Publicación en IIS (Windows Server), guía y capturas en `evidencias/iis/` (PR #3) |
-| [Nombre de C] | Preparación de la app | `/health`, `ApiUrl`, configuración por entorno, retiro de secretos, guion del video (PR #, PR #) |
+| [Nombre de C] | Preparación de la app | `/health`, `ApiUrl`, configuración por entorno, retiro de secretos (PR #2) |
 | [Nombre de D] | Infraestructura Azure | Recursos de Azure (App Services, Azure SQL, App Settings, HTTPS Only), `deploy/azure/README.md` (infraestructura), evidencias de configuración (PR #) |
 | [Nombre de E] | Despliegue y verificación en Azure | Publicación desde Visual Studio, `deploy/azure/README.md` (publicación), evidencias de URL y `/health` (PR #) |
 
@@ -67,7 +67,7 @@ ShopCore/
 ├─ deploy/
 │  ├─ iis/                 # scripts y guía de publicación en IIS
 │  └─ azure/               # guía de publicación en Azure App Service
-├─ docs/                   # configuración, guion del video, informe
+├─ docs/                   # configuración, informe
 └─ evidencias/
    ├─ iis/
    └─ azure/
