@@ -3,11 +3,11 @@
 Práctica 3 · Despliegue de Software — Publicación en **IIS (On-Premises)** y **Azure App Service**.
 
 ## Integrantes
-- Sebastian Villa
+- Sebastian Villa Castillo
 - Jhon Eduardo Zabala Garzón
-- Laura Posada
+- Laura Posada Taborda
 - David Morales Vargas
-- Brayan Arango
+- Brayan Alexis Arango Orrego
 
 ## Descripción
 ShopCore es una tienda en línea (e-commerce) donde los usuarios consultan productos y ofertas, gestionan su
